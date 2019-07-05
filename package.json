@@ -1,7 +1,7 @@
 {
   "name": "opencerts-dnsprove",
   "version": "0.0.0-development",
-  "description": "Helper utility for retrieving OpenCerts document store address records from DNS",
+  "description": "Helper utility for retrieving OpenAttestations document store address records from DNS",
   "license": "MIT",
   "repository": "opencerts/dnsprove",
   "main": "dist/index.js",
@@ -45,7 +45,8 @@
     "generator-nod"
   ],
   "dependencies": {
-    "debug": "4.1.1"
+    "debug": "4.1.1",
+    "dohdec": "2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
@@ -54,6 +55,7 @@
     "@babel/preset-env": "7.4.5",
     "@babel/preset-typescript": "7.3.3",
     "@types/debug": "4.1.4",
+    "@types/lodash": "4.14.135",
     "@types/jest": "24.0.13",
     "@typescript-eslint/eslint-plugin": "1.11.0",
     "@typescript-eslint/parser": "1.11.0",
@@ -71,7 +73,7 @@
     "open-cli": "5.0.0",
     "prettier": "1.18.2",
     "rimraf": "2.6.3",
-    "semantic-release": "15.13.18",
+    "semantic-release": "^15.13.18",
     "typescript": "3.5.1"
   },
   "publishConfig": {

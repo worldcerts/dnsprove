@@ -1,6 +1,6 @@
 import debug from "debug";
 
-const logger = debug("PLACEHOLDER_PROJECT_NAME");
+const logger = debug("dnsprove");
 
 export const trace = (namespace: string) => logger.extend(`trace:${namespace}`);
 export const info = (namespace: string) => logger.extend(`info:${namespace}`);
