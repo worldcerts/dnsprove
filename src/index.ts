@@ -11,14 +11,14 @@ type BlockchainNetwork = "ethereum";
 
 type EthereumAddress = string;
 
-enum EthereumNetworkIds {
+enum EthereumNetworkId {
   homestead = 1,
   ropsten = 3
 }
 interface OpenAttestationsDNSTextRecord {
   type: RecordTypes;
-  net: BlockchainNetwork;
-  netId: EthereumNetworkIds;
+  net: BlockchainNetwork; // key names are directly lifted from the dns-txt record format
+  netId: EthereumNetworkId; // they are abbreviated because of 255 char constraint on dns-txt records
   address: EthereumAddress;
   dnssec: boolean;
 }
@@ -28,19 +28,20 @@ interface OpenAttestationsDNSTextRecord {
  * @param txtDataString e.g: '"openatts net=ethereum netId=3 address=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const isOpenAttestationsRecord = (txtDataString: string) => {
-  return txtDataString.startsWith('"openatts');
+  return txtDataString.startsWith("openatts");
 };
 
 /**
  * Takes a string in the format of "key=value" and adds it to a JS object as key: value
  * @param obj Object that will be modified
- * @param keyValuePair
+ * @param keyValuePair e.g: "net=ethereum"
  */
 const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
-  const [key, value] = keyValuePair.split("=", 2);
+  const [key, ...values] = keyValuePair.split("=");
+  const value = values.join("="); // in case there were values with = in them
   /* eslint-disable no-param-reassign */
   // this is necessary because we modify the accumulator in .reduce
-  obj[key] = value;
+  obj[key.trim()] = value.trim();
 
   return obj;
 };
@@ -51,13 +52,11 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
  */
 const parseOpenAttestationsRecord = (record: string): OpenAttestationsDNSTextRecord => {
   trace(`Parsing record: ${record}`);
-  const keyValuePairs = record
-    .slice(1, -1) // remove the leading and trailing quotes
-    .split(" ") // tokenize into key=value elements
-    .slice(1); // remove the leading 'openatts' token
+  const keyValuePairs = record.trim().split(" "); // tokenize into key=value elements
   const recordObject = {} as OpenAttestationsDNSTextRecord;
+  // @ts-ignore: we already checked for this token
+  recordObject.type = keyValuePairs.shift();
   keyValuePairs.reduce<OpenAttestationsDNSTextRecord>(addKeyValuePairToObject, recordObject);
-  recordObject.type = "openatts";
   return recordObject;
 };
 
@@ -68,8 +67,7 @@ const applyDnssecResults = (
   dnssecStatus: boolean
 ): ((record: OpenAttestationsDNSTextRecord) => OpenAttestationsDNSTextRecord) => {
   return (record: OpenAttestationsDNSTextRecord) => {
-    record.dnssec = dnssecStatus;
-    return record;
+    return Object.assign(record, { dnssec: dnssecStatus });
   };
 };
 
@@ -80,16 +78,17 @@ const applyDnssecResults = (
 export const parseDnsResults = (recordSet: any[] = []): OpenAttestationsDNSTextRecord[] => {
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
   return recordSet
-    .filter(record => isOpenAttestationsRecord(record.data))
     .map(record => record.data)
-    .map<OpenAttestationsDNSTextRecord>(parseOpenAttestationsRecord);
+    .map(record => record.slice(1, -1))
+    .filter(record => isOpenAttestationsRecord(record))
+    .map(parseOpenAttestationsRecord);
 };
 
 /**
  * Queries a given domain and parses the results to retrieve openattestation document store records if any
  * @param domain e.g: "ruijiechow.com", "documentstores.openattestation.com"
  */
-export const getCertStoreRecords = async (domain: string): Promise<OpenAttestationsDNSTextRecord[]> => {
+export const getDocumentStoreRecords = async (domain: string): Promise<OpenAttestationsDNSTextRecord[]> => {
   trace(`Received request to resolve ${domain}`);
   const opts = {
     rrtype: "TXT",
