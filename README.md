@@ -89,7 +89,7 @@ Takes a DNS-TXT Record set and returns openattestation document store records if
 
 #### Parameters
 
--   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;any>** Refer to tests for examples (optional, default `[]`)
+-   `recordSet` **Answer** Refer to tests for examples (optional, default `[]`)
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationsDNSTextRecord>** 
 
