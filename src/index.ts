@@ -1,4 +1,4 @@
-import { DNSoverHTTPS } from "dohdec";
+import { DNSoverHTTPS, Answer } from "dohdec";
 import { getLogger } from "./util/logger";
 
 const { trace } = getLogger("index");
@@ -75,12 +75,12 @@ const applyDnssecResults = (
  * Takes a DNS-TXT Record set and returns openattestation document store records if any
  * @param recordSet Refer to tests for examples
  */
-export const parseDnsResults = (recordSet: any[] = []): OpenAttestationsDNSTextRecord[] => {
+export const parseDnsResults = (recordSet: Answer = []): OpenAttestationsDNSTextRecord[] => {
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
   return recordSet
     .map(record => record.data)
-    .map(record => record.slice(1, -1))
-    .filter(record => isOpenAttestationsRecord(record))
+    .map(record => record.slice(1, -1)) // removing leading and trailing quotes
+    .filter(isOpenAttestationsRecord)
     .map(parseOpenAttestationsRecord);
 };
 
@@ -97,5 +97,5 @@ export const getDocumentStoreRecords = async (domain: string): Promise<OpenAttes
   const results = await DoHResolver.lookup(domain, opts);
   trace(`Lookup results: ${JSON.stringify(results)}`);
 
-  return parseDnsResults(results.Answer).map<OpenAttestationsDNSTextRecord>(applyDnssecResults(results.RA));
+  return parseDnsResults(results.Answer).map(applyDnssecResults(results.RA));
 };

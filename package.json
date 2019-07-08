@@ -21,7 +21,7 @@
     "postcoverage": "open-cli coverage/lcov-report/index.html",
     "lint": "eslint . --ext js,ts,tsx",
     "lint:fix": "npm run lint -- --fix",
-    "docs": "documentation readme src --section=API",
+    "docs": "documentation readme src/index.ts --section=API --document-exported --babel=./.babelrc --parse-extension=ts",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",
     "prebuild": "npm run docs && npm run clean",

@@ -1,4 +1,4 @@
-import { getDocumentStoreRecords, parseDnsResults } from ".";
+import { getDocumentStoreRecords, parseDnsResults } from "./index.ts";
 
 const sampleDnsTextRecord = {
   type: "openatts",
