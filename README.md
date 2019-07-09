@@ -47,4 +47,4 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ## License
 
-MIT © [Diego Haz](https://github.com/diegohaz)
+MIT
