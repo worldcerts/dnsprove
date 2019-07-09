@@ -1,4 +1,4 @@
-import { getDocumentStoreRecords, parseDnsResults } from "./index.ts";
+import { getDocumentStoreRecords, parseDnsResults } from "./index";
 
 const sampleDnsTextRecord = {
   type: "openatts",
@@ -43,6 +43,9 @@ describe("parseDnsResults", () => {
   test("it should not mangle records with = in it", () => {
     const sampleRecord = [
       {
+        name: "ruijiechow.com.",
+        type: 16,
+        TTL: 110,
         data: '"openatts net=ethereum=classic netId=3 address=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
       }
     ];
@@ -58,9 +61,15 @@ describe("parseDnsResults", () => {
   test("it should return two record items if there are two openatts record", () => {
     const sampleRecord = [
       {
+        name: "ruijiechow.com.",
+        type: 16,
+        TTL: 110,
         data: '"openatts net=ethereum netId=3 address=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
       },
       {
+        name: "ruijiechow.com.",
+        type: 16,
+        TTL: 110,
         data: '"openatts net=ethereum netId=1 address=0x007d40224f6562461633ccfbaffd359ebb2fc9ba"'
       }
     ];

@@ -82,6 +82,7 @@ Here is an example of the release type that will be done based on a commit messa
     -   [Parameters](#parameters)
 -   [getDocumentStoreRecords](#getdocumentstorerecords)
     -   [Parameters](#parameters-1)
+    -   [Examples](#examples)
 
 ### parseDnsResults
 
@@ -91,7 +92,7 @@ Takes a DNS-TXT Record set and returns openattestation document store records if
 
 -   `recordSet` **Answer** Refer to tests for examples (optional, default `[]`)
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationsDNSTextRecord>** 
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>** 
 
 ### getDocumentStoreRecords
 
@@ -101,7 +102,18 @@ Queries a given domain and parses the results to retrieve openattestation docume
 
 -   `domain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** e.g: "ruijiechow.com", "documentstores.openattestation.com"
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationsDNSTextRecord>>** 
+#### Examples
+
+```javascript
+> getDocumentStoreRecords("documentstores.openattestation.com")
+> [ { type: 'openatts',
+net: 'ethereum',
+netId: '3',
+address: '0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC',
+dnssec: true } ]
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>>** 
 
 ## License
 

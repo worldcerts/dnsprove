@@ -24,7 +24,7 @@ declare module "dohdec" {
     Answer: Answer;
   }
 
-  interface Answer extends Array<DNSRecord> {}
+  type Answer = Array<DNSRecord>;
 
   interface DNSRecord {
     name: string;
