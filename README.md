@@ -20,7 +20,7 @@ Takes a DNS-TXT Record set and returns openattestation document store records if
 
 #### Parameters
 
--   `recordSet` **Answer** Refer to tests for examples (optional, default `[]`)
+-   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;IDNSRecord>** Refer to tests for examples (optional, default `[]`)
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>** 
 
@@ -30,16 +30,16 @@ Queries a given domain and parses the results to retrieve openattestation docume
 
 #### Parameters
 
--   `domain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** e.g: "ruijiechow.com", "documentstores.openattestation.com"
+-   `domain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** e.g: "example.openattestation.com"
 
 #### Examples
 
 ```javascript
-> getDocumentStoreRecords("documentstores.openattestation.com")
+> getDocumentStoreRecords("example.openattestation.com")
 > [ { type: 'openatts',
 net: 'ethereum',
 netId: '3',
-address: '0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC',
+addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',
 dnssec: true } ]
 ```
 

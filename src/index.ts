@@ -17,7 +17,7 @@ interface OpenAttestationDNSTextRecord {
   type: RecordTypes;
   net: BlockchainNetwork; // key names are directly lifted from the dns-txt record format
   netId: EthereumNetworkId; // they are abbreviated because of 255 char constraint on dns-txt records
-  address: EthereumAddress;
+  addr: EthereumAddress;
   dnssec: boolean;
 }
 
@@ -35,7 +35,7 @@ interface IDNSQueryResponse {
 
 /**
  * Returns true for strings that are openattestation records
- * @param txtDataString e.g: '"openatts net=ethereum netId=3 address=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param txtDataString e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const isOpenAttestationRecord = (txtDataString: string) => {
   return txtDataString.startsWith("openatts");
@@ -59,7 +59,7 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
 
 /**
  * Parses one openattestation DNS-TXT record and turns it into an OpenAttestationsDNSTextRecord object
- * @param record e.g: '"openatts net=ethereum netId=3 address=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param record e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const parseOpenAttestationRecord = (record: string): OpenAttestationDNSTextRecord => {
   trace(`Parsing record: ${record}`);
@@ -95,13 +95,13 @@ export const parseDnsResults = (recordSet: IDNSRecord[] = []): OpenAttestationDN
 
 /**
  * Queries a given domain and parses the results to retrieve openattestation document store records if any
- * @param domain e.g: "ruijiechow.com", "documentstores.openattestation.com"
+ * @param domain e.g: "example.openattestation.com"
  * @example 
- * > getDocumentStoreRecords("documentstores.openattestation.com")
+ * > getDocumentStoreRecords("example.openattestation.com")
  * > [ { type: 'openatts',
     net: 'ethereum',
     netId: '3',
-    address: '0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC',
+    addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',
     dnssec: true } ]
  */
 export const getDocumentStoreRecords = async (domain: string): Promise<OpenAttestationDNSTextRecord[]> => {
