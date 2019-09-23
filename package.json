@@ -22,6 +22,8 @@
     "test": "jest",
     "coverage": "npm test -- --coverage",
     "postcoverage": "open-cli coverage/lcov-report/index.html",
+    "commit": "git-cz",
+    "commit:retry": "git-cz --retry",
     "lint": "eslint . --ext js,ts,tsx",
     "lint:fix": "npm run lint -- --fix",
     "docs": "documentation readme src/index.ts --section=API --document-exported --babel=./.babelrc --parse-extension=ts",
@@ -58,19 +60,25 @@
     "@babel/plugin-proposal-class-properties": "7.4.4",
     "@babel/preset-env": "7.4.5",
     "@babel/preset-typescript": "7.3.3",
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "@commitlint/prompt": "8.2.0",
+    "@ls-age/commitlint-circle": "1.0.0",
     "@types/debug": "4.1.4",
-    "@types/lodash": "4.14.135",
     "@types/jest": "24.0.13",
+    "@types/lodash": "4.14.135",
     "@typescript-eslint/eslint-plugin": "1.11.0",
     "@typescript-eslint/parser": "1.11.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
+    "commitizen": "4.0.3",
     "documentation": "11.0.1",
     "eslint": "6.0.0",
     "eslint-config-airbnb-base": "13.2.0",
     "eslint-config-prettier": "5.0.0",
     "eslint-plugin-import": "2.17.3",
     "eslint-plugin-prettier": "3.1.0",
+    "git-cz": "3.2.1",
     "husky": "2.4.1",
     "jest": "24.8.0",
     "lint-staged": "8.2.1",
@@ -82,5 +90,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/@commitlint/prompt"
+    }
   }
 }

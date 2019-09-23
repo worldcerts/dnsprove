@@ -16,7 +16,18 @@ describe("getCertStoreRecords", () => {
     addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C"
   };
   test("it should work", async () => {
-    expect(await getDocumentStoreRecords("example.openattestation.com")).toStrictEqual([sampleDnsTextRecordWithDnssec]);
+    // added because needed for the test but might need to remove
+    const sampleToRemove = {
+      addr: "0x53f3a47C129Ea30D80bC727556b015F02bE63811",
+      dnssec: false,
+      net: "ethereum",
+      netId: "3",
+      type: "openatts"
+    };
+    expect(await getDocumentStoreRecords("example.openattestation.com")).toStrictEqual([
+      sampleDnsTextRecordWithDnssec,
+      sampleToRemove
+    ]);
   });
 
   test("it should return an empty array if there is no openatts record", async () => {
