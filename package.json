@@ -34,7 +34,7 @@
     "preversion": "npm run lint && npm test && npm run build",
     "semantic-release": "semantic-release"
   },
-  "types": "dist/ts/src",
+  "types": "dist/ts",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
