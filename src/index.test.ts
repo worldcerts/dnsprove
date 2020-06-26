@@ -6,7 +6,8 @@ const sampleDnsTextRecord = {
   netId: "3",
   addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C"
 };
-
+// TODO people are using example.openattestation.com so the test could break
+// maybe it should be changed to donotuse.openattestation.com
 describe("getCertStoreRecords", () => {
   const sampleDnsTextRecordWithDnssec = {
     type: "openatts",
@@ -24,10 +25,9 @@ describe("getCertStoreRecords", () => {
       netId: "3",
       type: "openatts"
     };
-    expect(await getDocumentStoreRecords("example.openattestation.com")).toStrictEqual([
-      sampleDnsTextRecordWithDnssec,
-      sampleToRemove
-    ]);
+    const records = await getDocumentStoreRecords("example.openattestation.com");
+    expect(records).toContainEqual(sampleDnsTextRecordWithDnssec);
+    expect(records).toContainEqual(sampleToRemove);
   });
 
   test("it should return an empty array if there is no openatts record", async () => {
