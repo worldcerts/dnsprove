@@ -3,17 +3,16 @@ import { getLogger } from "./util/logger";
 
 const { trace } = getLogger("index");
 
-type RecordTypes = "openatts";
+export type RecordTypes = "openatts";
+export type BlockchainNetwork = "ethereum";
+export type EthereumAddress = string;
 
-type BlockchainNetwork = "ethereum";
-
-type EthereumAddress = string;
-
-enum EthereumNetworkId {
+export enum EthereumNetworkId {
   homestead = "1",
-  ropsten = "3"
+  ropsten = "3",
+  rinkeby = "4"
 }
-interface OpenAttestationDNSTextRecord {
+export interface OpenAttestationDNSTextRecord {
   type: RecordTypes;
   net: BlockchainNetwork; // key names are directly lifted from the dns-txt record format
   netId: EthereumNetworkId; // they are abbreviated because of 255 char constraint on dns-txt records
@@ -21,14 +20,14 @@ interface OpenAttestationDNSTextRecord {
   dnssec: boolean;
 }
 
-interface IDNSRecord {
+export interface IDNSRecord {
   name: string;
   type: number;
   TTL: number;
   data: string;
 }
 
-interface IDNSQueryResponse {
+export interface IDNSQueryResponse {
   AD: boolean; // Whether all response data was validated with DNSSEC,
   Answer: IDNSRecord[];
 }
@@ -96,7 +95,7 @@ export const parseDnsResults = (recordSet: IDNSRecord[] = []): OpenAttestationDN
 /**
  * Queries a given domain and parses the results to retrieve openattestation document store records if any
  * @param domain e.g: "example.openattestation.com"
- * @example 
+ * @example
  * > getDocumentStoreRecords("example.openattestation.com")
  * > [ { type: 'openatts',
     net: 'ethereum',
