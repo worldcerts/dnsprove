@@ -2,7 +2,7 @@
   "name": "@govtechsg/dnsprove",
   "version": "0.0.0-development",
   "description": "Helper utility for retrieving OpenAttestations document store address records from DNS",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Open-Attestation/dnsprove.git"
@@ -71,7 +71,7 @@
     "@typescript-eslint/parser": "1.11.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
-    "commitizen": "4.0.3",
+    "commitizen": "4.2.1",
     "documentation": "11.0.1",
     "eslint": "6.0.0",
     "eslint-config-airbnb-base": "13.2.0",
