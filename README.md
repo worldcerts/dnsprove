@@ -1,6 +1,38 @@
-# @opencerts/dnsprove
+# @open-attestation/dnsprove
 
-A helper library to retrieve OpenAttestation DNS-TXT records from domains
+A helper library to retrieve OpenAttestation DNS-TXT records from domains using Google's public DNS service
+
+A valid OpenAttestation DNS-TXT record looks like:
+
+```js
+[
+      {
+        name: "example.openattestation.com.",
+        type: 16,
+        TTL: 110,
+        data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"'
+      }
+]
+```
+
+Validation is run on all retrieved records to ensure they conform to the expected format, and records that fail validation will simply be omitted from the returned results.
+
+
+To see validation failures run the library with the debug flag turned on, either
+
+In Browser:
+
+`localStorage.debug="dnsprove*"`
+
+In NodeJS:
+```sh
+DEBUG="dnsprove*" npm run test
+```
+
+## Types
+
+This library uses [runtypes](https://github.com/pelotom/runtypes) for compile time static type checking as well as run time input validation. The generated documentation below is inaccurate for any Runtypes generated types due to documentation generator limitations.
+
 
 ## API
 
@@ -8,11 +40,65 @@ A helper library to retrieve OpenAttestation DNS-TXT records from domains
 
 #### Table of Contents
 
--   [parseDnsResults](#parsednsresults)
+-   [RecordTypes](#recordtypes)
+-   [BlockchainNetwork](#blockchainnetwork)
+-   [EthereumAddress](#ethereumaddress)
+-   [EthereumNetworkId](#ethereumnetworkid)
+-   [OpenAttestationDNSTextRecord](#openattestationdnstextrecord)
+-   [IDNSRecord](#idnsrecord)
+-   [IDNSQueryResponse](#idnsqueryresponse)
+-   [parseOpenAttestationRecord](#parseopenattestationrecord)
     -   [Parameters](#parameters)
--   [getDocumentStoreRecords](#getdocumentstorerecords)
+-   [isWellFormedOpenAttestationRecord](#iswellformedopenattestationrecord)
     -   [Parameters](#parameters-1)
+-   [parseDnsResults](#parsednsresults)
+    -   [Parameters](#parameters-2)
+-   [getDocumentStoreRecords](#getdocumentstorerecords)
+    -   [Parameters](#parameters-3)
     -   [Examples](#examples)
+
+### RecordTypes
+
+Type: Static&lt;any>
+
+### BlockchainNetwork
+
+Type: Static&lt;any>
+
+### EthereumAddress
+
+Type: Static&lt;any>
+
+### EthereumNetworkId
+
+Type: Static&lt;any>
+
+### OpenAttestationDNSTextRecord
+
+Type: Static&lt;any>
+
+### IDNSRecord
+
+### IDNSQueryResponse
+
+### parseOpenAttestationRecord
+
+Parses one openattestation DNS-TXT record and turns it into an OpenAttestationsDNSTextRecord object
+
+#### Parameters
+
+-   `record` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+
+Returns **[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)** 
+
+### isWellFormedOpenAttestationRecord
+
+Returns true if the given object passes runtype validation for OpenAttestationDNSTextRecord
+Turn on debug log to see exact validation failure messages if necessary
+
+#### Parameters
+
+-   `record` **[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)** An object that may conform to the OpenAttestationDNSTextRecord shape
 
 ### parseDnsResults
 
@@ -20,9 +106,9 @@ Takes a DNS-TXT Record set and returns openattestation document store records if
 
 #### Parameters
 
--   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;IDNSRecord>** Refer to tests for examples (optional, default `[]`)
+-   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[IDNSRecord](#idnsrecord)>** Refer to tests for examples (optional, default `[]`)
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>** 
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)>** 
 
 ### getDocumentStoreRecords
 
@@ -43,7 +129,7 @@ addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',
 dnssec: true } ]
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)>>** 
 
 ## License
 

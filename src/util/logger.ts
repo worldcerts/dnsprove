@@ -8,5 +8,5 @@ export const error = (namespace: string) => debug(`dnsprove:error:${namespace}`)
 export const getLogger = (namespace: string) => ({
   trace: trace(namespace),
   info: info(namespace),
-  error: error(namespace)
+  error: error(namespace),
 });

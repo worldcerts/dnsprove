@@ -1,24 +1,49 @@
 import axios from "axios";
+import { Static, Boolean, String, Literal, Record, Union, Partial } from "runtypes";
 import { getLogger } from "./util/logger";
 
-const { trace } = getLogger("index");
+const { trace, error } = getLogger("index");
 
-export type RecordTypes = "openatts";
-export type BlockchainNetwork = "ethereum";
-export type EthereumAddress = string;
+const RecordTypes = Literal("openatts");
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentionally naming the variable the same as the type
+export type RecordTypes = Static<typeof RecordTypes>;
 
-export enum EthereumNetworkId {
+const BlockchainNetwork = Literal("ethereum");
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentionally naming the variable the same as the type
+export type BlockchainNetwork = Static<typeof BlockchainNetwork>;
+
+const EthereumAddress = String.withConstraint((maybeAddress: string) => {
+  return /0x[a-fA-F0-9]{40}/.test(maybeAddress) || `${maybeAddress} is not a valid ethereum address`;
+});
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentionally naming the variable the same as the type
+export type EthereumAddress = Static<typeof EthereumAddress>;
+
+enum EthereumNetworks {
   homestead = "1",
   ropsten = "3",
-  rinkeby = "4"
+  rinkeby = "4",
 }
-export interface OpenAttestationDNSTextRecord {
-  type: RecordTypes;
-  net: BlockchainNetwork; // key names are directly lifted from the dns-txt record format
-  netId: EthereumNetworkId; // they are abbreviated because of 255 char constraint on dns-txt records
-  addr: EthereumAddress;
-  dnssec: boolean;
-}
+
+const EthereumNetworkId = Union(
+  Literal(EthereumNetworks.homestead),
+  Literal(EthereumNetworks.ropsten),
+  Literal(EthereumNetworks.rinkeby)
+);
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentionally naming the variable the same as the type
+export type EthereumNetworkId = Static<typeof EthereumNetworkId>;
+
+const OpenAttestationDNSTextRecord = Record({
+  type: RecordTypes,
+  net: BlockchainNetwork, // key names are directly lifted from the dns-txt record format
+  netId: EthereumNetworkId, // they are abbreviated because of 255 char constraint on dns-txt records
+  addr: EthereumAddress,
+}).And(
+  Partial({
+    dnssec: Boolean,
+  })
+);
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentionally naming the variable the same as the type
+export type OpenAttestationDNSTextRecord = Static<typeof OpenAttestationDNSTextRecord>;
 
 export interface IDNSRecord {
   name: string;
@@ -60,7 +85,7 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
  * Parses one openattestation DNS-TXT record and turns it into an OpenAttestationsDNSTextRecord object
  * @param record e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
-const parseOpenAttestationRecord = (record: string): OpenAttestationDNSTextRecord => {
+export const parseOpenAttestationRecord = (record: string): OpenAttestationDNSTextRecord => {
   trace(`Parsing record: ${record}`);
   const keyValuePairs = record.trim().split(" "); // tokenize into key=value elements
   const recordObject = {} as OpenAttestationDNSTextRecord;
@@ -80,16 +105,32 @@ const applyDnssecResults = (dnssecStatus: boolean) => (
 };
 
 /**
+ * Returns true if the given object passes runtype validation for OpenAttestationDNSTextRecord
+ * Turn on debug log to see exact validation failure messages if necessary
+ * @param record An object that may conform to the OpenAttestationDNSTextRecord shape
+ */
+export const isWellFormedOpenAttestationRecord = (record: OpenAttestationDNSTextRecord) => {
+  try {
+    OpenAttestationDNSTextRecord.check(record);
+    return true;
+  } catch (e) {
+    error(e);
+    return false;
+  }
+};
+
+/**
  * Takes a DNS-TXT Record set and returns openattestation document store records if any
  * @param recordSet Refer to tests for examples
  */
 export const parseDnsResults = (recordSet: IDNSRecord[] = []): OpenAttestationDNSTextRecord[] => {
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
   return recordSet
-    .map(record => record.data)
-    .map(record => record.slice(1, -1)) // removing leading and trailing quotes
+    .map((record) => record.data)
+    .map((record) => record.slice(1, -1)) // removing leading and trailing quotes
     .filter(isOpenAttestationRecord)
-    .map(parseOpenAttestationRecord);
+    .map(parseOpenAttestationRecord)
+    .filter(isWellFormedOpenAttestationRecord);
 };
 
 /**
