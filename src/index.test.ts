@@ -1,4 +1,4 @@
-import { getDocumentStoreRecords, parseDocumentStoreResults, getDnsGenericRecords } from ".";
+import { getDocumentStoreRecords, parseDocumentStoreResults, getDnsDidRecords } from ".";
 
 describe("getCertStoreRecords", () => {
   const sampleDnsTextRecordWithDnssec = {
@@ -22,9 +22,9 @@ describe("getCertStoreRecords", () => {
   });
 });
 
-describe("getDnsGenericRecords", () => {
+describe("getDnsDidRecords", () => {
   test("it should work", async () => {
-    const records = await getDnsGenericRecords("donotuse.openattestation.com");
+    const records = await getDnsDidRecords("donotuse.openattestation.com");
     expect(records).toStrictEqual([
       {
         algorithm: "dns-did",
@@ -36,12 +36,12 @@ describe("getDnsGenericRecords", () => {
   });
 
   test("it should return an empty array if there is no openatts record", async () => {
-    const records = await getDnsGenericRecords("google.com");
+    const records = await getDnsDidRecords("google.com");
     expect(records).toStrictEqual([]);
   });
 
   test("it should return an empty array with a non-existent domain", async () => {
-    const records = await getDnsGenericRecords("thisdoesnotexist.gov.sg");
+    const records = await getDnsDidRecords("thisdoesnotexist.gov.sg");
     expect(records).toStrictEqual([]);
   });
 });

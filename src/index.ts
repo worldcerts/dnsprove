@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenAttestationDNSTextRecord, OpenAttestationDNSTextRecordT } from "./records/dnsTxt";
-import { OpenAttestationDnsGenericRecord, OpenAttestationDnsGenericRecordT } from "./records/dnsGeneric";
+import { OpenAttestationDnsDidRecord, OpenAttestationDnsDidRecordT } from "./records/dnsDid";
 import { getLogger } from "./util/logger";
 
 const { trace } = getLogger("index");
@@ -49,7 +49,7 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
   return obj;
 };
 
-const formatDnsGenericRecord = ({ a, v, p }: { [key: string]: string }) => {
+const formatDnsDidRecord = ({ a, v, p }: { [key: string]: string }) => {
   return {
     algorithm: a,
     publicKey: p,
@@ -83,6 +83,10 @@ const applyDnssecResults = <T>(dnssecStatus: boolean) => (record: T): T => {
   return { ...record, dnssec: dnssecStatus };
 };
 
+/**
+ * Takes a record set and breaks that info array of key value pairs
+ * @param recordSet e.g: [{name: "google.com", type: 16, TTL: 3599, data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"}]
+ */
 const parseOpenAttestationRecords = (recordSet: IDNSRecord[] = []): GenericObject[] => {
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
   return recordSet
@@ -107,15 +111,12 @@ export const parseDocumentStoreResults = (
     .map(applyDnssecResults(dnssec));
 };
 
-export const parseDnsGenericResults = (
-  recordSet: IDNSRecord[] = [],
-  dnssec: boolean
-): OpenAttestationDnsGenericRecord[] => {
+export const parseDnsDidResults = (recordSet: IDNSRecord[] = [], dnssec: boolean): OpenAttestationDnsDidRecord[] => {
   return parseOpenAttestationRecords(recordSet)
-    .map(formatDnsGenericRecord)
+    .map(formatDnsDidRecord)
     .reduce((prev, curr) => {
-      return OpenAttestationDnsGenericRecordT.guard(curr) ? [...prev, curr] : prev;
-    }, [] as OpenAttestationDnsGenericRecord[])
+      return OpenAttestationDnsDidRecordT.guard(curr) ? [...prev, curr] : prev;
+    }, [] as OpenAttestationDnsDidRecord[])
     .map(applyDnssecResults(dnssec));
 };
 
@@ -141,7 +142,7 @@ export const getDocumentStoreRecords = async (domain: string): Promise<OpenAttes
   return parseDocumentStoreResults(answers, results.AD);
 };
 
-export const getDnsGenericRecords = async (domain: string): Promise<OpenAttestationDnsGenericRecord[]> => {
+export const getDnsDidRecords = async (domain: string): Promise<OpenAttestationDnsDidRecord[]> => {
   trace(`Received request to resolve ${domain}`);
 
   const results = await queryDns(domain);
@@ -149,5 +150,5 @@ export const getDnsGenericRecords = async (domain: string): Promise<OpenAttestat
 
   trace(`Lookup results: ${JSON.stringify(answers)}`);
 
-  return parseDnsGenericResults(answers, results.AD);
+  return parseDnsDidResults(answers, results.AD);
 };
