@@ -152,3 +152,5 @@ export const getDnsDidRecords = async (domain: string): Promise<OpenAttestationD
 
   return parseDnsDidResults(answers, results.AD);
 };
+
+export { OpenAttestationDNSTextRecord, OpenAttestationDnsDidRecord };
