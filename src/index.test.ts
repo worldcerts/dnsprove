@@ -27,6 +27,7 @@ describe("getDnsDidRecords", () => {
     const records = await getDnsDidRecords("donotuse.openattestation.com");
     expect(records).toStrictEqual([
       {
+        type: "openatts",
         algorithm: "dns-did",
         publicKey: "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
         version: "1.0",

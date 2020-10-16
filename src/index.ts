@@ -49,8 +49,9 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
   return obj;
 };
 
-const formatDnsDidRecord = ({ a, v, p }: { [key: string]: string }) => {
+const formatDnsDidRecord = ({ a, v, p, type }: { [key: string]: string }) => {
   return {
+    type,
     algorithm: a,
     publicKey: p,
     version: v,
