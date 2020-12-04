@@ -3,7 +3,7 @@ import { getLogger } from "./util/logger";
 
 const { trace } = getLogger("index");
 
-type RecordTypes = "openatts";
+type RecordTypes = "worldatts";
 
 type BlockchainNetwork = "ethereum";
 
@@ -35,10 +35,10 @@ interface IDNSQueryResponse {
 
 /**
  * Returns true for strings that are openattestation records
- * @param txtDataString e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param txtDataString e.g: '"worldatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const isOpenAttestationRecord = (txtDataString: string) => {
-  return txtDataString.startsWith("openatts");
+  return txtDataString.startsWith("worldatts");
 };
 
 /**
@@ -59,7 +59,7 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
 
 /**
  * Parses one openattestation DNS-TXT record and turns it into an OpenAttestationsDNSTextRecord object
- * @param record e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param record e.g: '"worldatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const parseOpenAttestationRecord = (record: string): OpenAttestationDNSTextRecord => {
   trace(`Parsing record: ${record}`);
@@ -98,7 +98,7 @@ export const parseDnsResults = (recordSet: IDNSRecord[] = []): OpenAttestationDN
  * @param domain e.g: "example.openattestation.com"
  * @example 
  * > getDocumentStoreRecords("example.openattestation.com")
- * > [ { type: 'openatts',
+ * > [ { type: 'worldatts',
     net: 'ethereum',
     netId: '3',
     addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',

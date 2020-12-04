@@ -36,7 +36,7 @@ Queries a given domain and parses the results to retrieve openattestation docume
 
 ```javascript
 > getDocumentStoreRecords("example.openattestation.com")
-> [ { type: 'openatts',
+> [ { type: 'worldatts',
 net: 'ethereum',
 netId: '3',
 addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',
