@@ -1,11 +1,11 @@
 {
-  "name": "@govtechsg/dnsprove",
-  "version": "0.0.0-development",
+  "name": "@worldcertscom/dnsprove",
+  "version": "2.0.9",
   "description": "Helper utility for retrieving OpenAttestations document store address records from DNS",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Open-Attestation/dnsprove.git"
+    "url": "git+https://github.com/worldcerts/dnsprove.git"
   },
   "main": "dist/index.js",
   "author": {

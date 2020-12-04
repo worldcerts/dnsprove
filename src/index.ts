@@ -23,10 +23,10 @@ interface GenericObject {
 
 /**
  * Returns true for strings that are openattestation records
- * @param txtDataString e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param txtDataString e.g: '"worldatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 const isOpenAttestationRecord = (txtDataString: string) => {
-  return txtDataString.startsWith("openatts");
+  return txtDataString.startsWith("worldatts");
 };
 
 const trimValue = (str: string) => {
@@ -64,7 +64,7 @@ export const queryDns = async (domain: string): Promise<IDNSQueryResponse> => {
 
 /**
  * Parses one openattestation DNS-TXT record and turns it into an OpenAttestationsDNSTextRecord object
- * @param record e.g: '"openatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
+ * @param record e.g: '"worldatts net=ethereum netId=3 addr=0x0c9d5E6C766030cc6f0f49951D275Ad0701F81EC"'
  */
 export const parseOpenAttestationRecord = (record: string): GenericObject => {
   trace(`Parsing record: ${record}`);
@@ -85,7 +85,7 @@ const applyDnssecResults = <T>(dnssecStatus: boolean) => (record: T): T => {
 
 /**
  * Takes a record set and breaks that info array of key value pairs
- * @param recordSet e.g: [{name: "google.com", type: 16, TTL: 3599, data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"}]
+ * @param recordSet e.g: [{name: "google.com", type: 16, TTL: 3599, data: '"worldatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"}]
  */
 const parseOpenAttestationRecords = (recordSet: IDNSRecord[] = []): GenericObject[] => {
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
@@ -125,7 +125,7 @@ export const parseDnsDidResults = (recordSet: IDNSRecord[] = [], dnssec: boolean
  * @param domain e.g: "example.openattestation.com"
  * @example
  * > getDocumentStoreRecords("example.openattestation.com")
- * > [ { type: 'openatts',
+ * > [ { type: 'worldatts',
     net: 'ethereum',
     netId: '3',
     addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',

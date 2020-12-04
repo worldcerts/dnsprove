@@ -2,7 +2,7 @@ import { getDocumentStoreRecords, parseDocumentStoreResults, getDnsDidRecords } 
 
 describe("getCertStoreRecords", () => {
   const sampleDnsTextRecordWithDnssec = {
-    type: "openatts",
+    type: "worldatts",
     net: "ethereum",
     netId: "3",
     dnssec: false,
@@ -13,7 +13,7 @@ describe("getCertStoreRecords", () => {
     expect(records).toStrictEqual([sampleDnsTextRecordWithDnssec]);
   });
 
-  test("it should return an empty array if there is no openatts record", async () => {
+  test("it should return an empty array if there is no worldatts record", async () => {
     expect(await getDocumentStoreRecords("google.com")).toStrictEqual([]);
   });
 
@@ -35,7 +35,7 @@ describe("getDnsDidRecords", () => {
     ]);
   });
 
-  test("it should return an empty array if there is no openatts record", async () => {
+  test("it should return an empty array if there is no worldatts record", async () => {
     const records = await getDnsDidRecords("google.com");
     expect(records).toStrictEqual([]);
   });
@@ -47,19 +47,19 @@ describe("getDnsDidRecords", () => {
 });
 
 describe("parseDocumentStoreResults", () => {
-  test("it should return one record in an array if there is one openatts record", () => {
+  test("it should return one record in an array if there is one worldatts record", () => {
     const sampleRecord = [
       {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"',
+        data: '"worldatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"',
         dnssec: true,
       },
     ];
     expect(parseDocumentStoreResults(sampleRecord, true)).toStrictEqual([
       {
-        type: "openatts",
+        type: "worldatts",
         net: "ethereum",
         netId: "3",
         addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C",
@@ -67,20 +67,20 @@ describe("parseDocumentStoreResults", () => {
       },
     ]);
   });
-  test("it should return two record items if there are two openatts record", () => {
+  test("it should return two record items if there are two worldatts record", () => {
     const sampleRecord = [
       {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"',
+        data: '"worldatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"',
         dnssec: true,
       },
       {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts net=ethereum netId=1 addr=0x007d40224f6562461633ccfbaffd359ebb2fc9ba"',
+        data: '"worldatts net=ethereum netId=1 addr=0x007d40224f6562461633ccfbaffd359ebb2fc9ba"',
         dnssec: true,
       },
     ];
@@ -90,32 +90,32 @@ describe("parseDocumentStoreResults", () => {
         addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C",
         net: "ethereum",
         netId: "3",
-        type: "openatts",
+        type: "worldatts",
         dnssec: true,
       },
       {
         addr: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
         net: "ethereum",
         netId: "1",
-        type: "openatts",
+        type: "worldatts",
         dnssec: true,
       },
     ]);
   });
-  test("it should omit malformed records even if it has openatts header", () => {
+  test("it should omit malformed records even if it has worldatts header", () => {
     const sampleRecord = [
       {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts foobarbar"',
+        data: '"worldatts foobarbar"',
         dnssec: true,
       },
       {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts net=ethereum netId=1 addr=0x007d40224f6562461633ccfbaffd359ebb2fc9ba"',
+        data: '"worldatts net=ethereum netId=1 addr=0x007d40224f6562461633ccfbaffd359ebb2fc9ba"',
         dnssec: true,
       },
     ];
@@ -124,7 +124,7 @@ describe("parseDocumentStoreResults", () => {
         addr: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
         net: "ethereum",
         netId: "1",
-        type: "openatts",
+        type: "worldatts",
         dnssec: true,
       },
     ]);
@@ -135,7 +135,7 @@ describe("parseDocumentStoreResults", () => {
         name: "example.openattestation.com.",
         type: 16,
         TTL: 110,
-        data: '"openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf19=79936301D8341D58C36C"',
+        data: '"worldatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf19=79936301D8341D58C36C"',
         dnssec: true,
       },
     ];

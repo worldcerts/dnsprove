@@ -1,6 +1,6 @@
 import { Static, Boolean, String, Literal, Record, Union, Partial } from "runtypes";
 
-export const RecordTypesT = Literal("openatts");
+export const RecordTypesT = Literal("worldatts");
 
 export const BlockchainNetworkT = Literal("ethereum");
 

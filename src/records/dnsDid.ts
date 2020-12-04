@@ -8,7 +8,7 @@ export const validateDid = (maybeDid: string) => {
   return true;
 };
 
-export const RecordTypesT = Literal("openatts");
+export const RecordTypesT = Literal("worldatts");
 export const AlgorithmT = Union(Literal("dns-did"));
 export const VersionT = String;
 export const PublicKeyT = String.withConstraint((maybeDid: string) => {
