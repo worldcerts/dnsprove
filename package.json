@@ -1,6 +1,6 @@
 {
   "name": "@worldcertscom/dnsprove",
-  "version": "2.0.9",
+  "version": "2.0.9-2",
   "description": "Helper utility for retrieving OpenAttestations document store address records from DNS",
   "license": "Apache-2.0",
   "repository": {
