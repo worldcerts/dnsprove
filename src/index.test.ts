@@ -68,6 +68,26 @@ describe("parseDocumentStoreResults", () => {
       },
     ]);
   });
+  test("it should correctly handle cases where the TXT record is not double quoted", () => {
+    const sampleRecord = [
+      {
+        name: "example.openattestation.com.",
+        type: 16,
+        TTL: 110,
+        data: "openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C",
+        dnssec: true,
+      },
+    ];
+    expect(parseDocumentStoreResults(sampleRecord, true)).toStrictEqual([
+      {
+        type: "openatts",
+        net: "ethereum",
+        netId: "3",
+        addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C",
+        dnssec: true,
+      },
+    ]);
+  });
   test("it should return two record items if there are two openatts record", () => {
     const sampleRecord = [
       {
