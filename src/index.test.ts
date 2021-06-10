@@ -27,6 +27,7 @@ describe("getDnsDidRecords", () => {
     const records = await getDnsDidRecords("donotuse.openattestation.com");
     expect(records).toStrictEqual([
       {
+        type: "openatts",
         algorithm: "dns-did",
         publicKey: "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
         version: "1.0",
@@ -67,7 +68,27 @@ describe("parseDocumentStoreResults", () => {
       },
     ]);
   });
-  test("it should return two record items if there are two worldatts record", () => {
+  test("it should correctly handle cases where the TXT record is not double quoted", () => {
+    const sampleRecord = [
+      {
+        name: "example.openattestation.com.",
+        type: 16,
+        TTL: 110,
+        data: "openatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C",
+        dnssec: true,
+      },
+    ];
+    expect(parseDocumentStoreResults(sampleRecord, true)).toStrictEqual([
+      {
+        type: "openatts",
+        net: "ethereum",
+        netId: "3",
+        addr: "0x2f60375e8144e16Adf1979936301D8341D58C36C",
+        dnssec: true,
+      },
+    ]);
+  });
+  test("it should return two record items if there are two openatts record", () => {
     const sampleRecord = [
       {
         name: "example.openattestation.com.",

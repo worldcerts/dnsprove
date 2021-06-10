@@ -49,8 +49,9 @@ const addKeyValuePairToObject = (obj: any, keyValuePair: string): any => {
   return obj;
 };
 
-const formatDnsDidRecord = ({ a, v, p }: { [key: string]: string }) => {
+const formatDnsDidRecord = ({ a, v, p, type }: { [key: string]: string }) => {
   return {
+    type,
     algorithm: a,
     publicKey: p,
     version: v,
@@ -84,6 +85,15 @@ const applyDnssecResults = <T>(dnssecStatus: boolean) => (record: T): T => {
 };
 
 /**
+ * Some DNS servers return TXT records with quoted strings, others don't :D
+ * @param record
+ * @returns unquoted DNS record
+ */
+const trimDoubleQuotes = (record: string) => {
+  return record.startsWith('"') ? record.slice(1, -1) : record;
+};
+
+/**
  * Takes a record set and breaks that info array of key value pairs
  * @param recordSet e.g: [{name: "google.com", type: 16, TTL: 3599, data: '"worldatts net=ethereum netId=3 addr=0x2f60375e8144e16Adf1979936301D8341D58C36C"}]
  */
@@ -91,7 +101,7 @@ const parseOpenAttestationRecords = (recordSet: IDNSRecord[] = []): GenericObjec
   trace(`Parsing DNS results: ${JSON.stringify(recordSet)}`);
   return recordSet
     .map((record) => record.data)
-    .map((record) => record.slice(1, -1)) // removing leading and trailing quotes
+    .map(trimDoubleQuotes) // removing leading and trailing quotes if they exist
     .filter(isOpenAttestationRecord)
     .map(parseOpenAttestationRecord);
 };
@@ -152,3 +162,5 @@ export const getDnsDidRecords = async (domain: string): Promise<OpenAttestationD
 
   return parseDnsDidResults(answers, results.AD);
 };
+
+export { OpenAttestationDNSTextRecord, OpenAttestationDnsDidRecord };

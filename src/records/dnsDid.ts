@@ -16,6 +16,7 @@ export const PublicKeyT = String.withConstraint((maybeDid: string) => {
 });
 
 export const OpenAttestationDnsDidRecordT = Record({
+  type: RecordTypesT,
   algorithm: AlgorithmT,
   publicKey: PublicKeyT,
   version: VersionT,
