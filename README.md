@@ -39,6 +39,8 @@ This library uses [runtypes](https://github.com/pelotom/runtypes) for compile ti
 
 #### Table of Contents
 
+-   [OpenAttestationDNSTextRecord](#openattestationdnstextrecord)
+-   [OpenAttestationDnsDidRecord](#openattestationdnsdidrecord)
 -   [IDNSRecord](#idnsrecord)
 -   [IDNSQueryResponse](#idnsqueryresponse)
 -   [queryDns](#querydns)
@@ -54,6 +56,10 @@ This library uses [runtypes](https://github.com/pelotom/runtypes) for compile ti
     -   [Examples](#examples)
 -   [getDnsDidRecords](#getdnsdidrecords)
     -   [Parameters](#parameters-5)
+
+### OpenAttestationDNSTextRecord
+
+### OpenAttestationDnsDidRecord
 
 ### IDNSRecord
 
@@ -86,7 +92,7 @@ Takes a DNS-TXT Record set and returns openattestation document store records if
 -   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[IDNSRecord](#idnsrecord)>** Refer to tests for examples (optional, default `[]`)
 -   `dnssec` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>** 
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)>** 
 
 ### parseDnsDidResults
 
@@ -95,7 +101,7 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 -   `recordSet` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[IDNSRecord](#idnsrecord)>**  (optional, default `[]`)
 -   `dnssec` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDnsDidRecord>** 
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDnsDidRecord](#openattestationdnsdidrecord)>** 
 
 ### getDocumentStoreRecords
 
@@ -116,7 +122,7 @@ addr: '0x2f60375e8144e16Adf1979936301D8341D58C36C',
 dnssec: true } ]
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDNSTextRecord>>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDNSTextRecord](#openattestationdnstextrecord)>>** 
 
 ### getDnsDidRecords
 
@@ -124,7 +130,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `domain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;OpenAttestationDnsDidRecord>>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[OpenAttestationDnsDidRecord](#openattestationdnsdidrecord)>>** 
 
 ## License
 
